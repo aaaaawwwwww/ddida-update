@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+
+<link href="/css/reset.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+<style type="text/css">
+.container {
+	text-align: left;
+}
+
+.table-striped-color>tbody>tr>td:nth-child(odd), .table-striped-color>tbody>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.table-striped-color>thead>tr>td:nth-child(odd), .table-striped-color>thead>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.center {
+	text-align: center;
+}
+
+.line {
+	border-bottom: 2px solid #37745B;
+	border-top: 2px solid #37745B;
+}
+
+.bottom-line {
+	border-bottom: 2px solid #37745B;
+}
+</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<div>
+				<h4>예약이 완료되었습니다</h4>
+			</div>
+			<h4 class="mt-5 mb-2">예약 정보</h4>
+			<table class="table table-striped-color center">
+				<tbody>
+					<tr class="line">
+						<th scope="col" style="width: 17%">시설 이름</th>
+						<td scope="col">[[${data.rsrcNm}]]</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">이용 날짜</th>
+						<td>[[${data.useDate}]]</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">이용 시간</th>
+						<td th:utext="${useTimes}"></td>
+					</tr>
+					<tr class="line">
+						<th scope="row">예약 일자</th>
+						<td>[[${data.reserveDate}]] <br> [[${data.reserveTime}]]
+						</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">결제 요금</th>
+						<td>[[${data.reserveFee}]]</td>
+					</tr>
+					<tr class="line">
+						<th scope="row">계좌 번호</th>
+						<td>국민 94240-6340-70</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="mb-5" style="text-align: right;">
+				<a th:href="@{/mypage/reservation}">
+					<button type="button"
+						style="background-color: #37745B; width: 150px; height: 40px; color: #FFF; border-radius: 8px;"
+						th:onclick="|location.href='@{/mypage/reservation/{reserveId}(reserveId=${data.reserveId})}'|">
+						예약 내역 조회</button>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+	<script type="text/javascript" src="/js/gnb.js"></script>
+</body>
+
+</html>

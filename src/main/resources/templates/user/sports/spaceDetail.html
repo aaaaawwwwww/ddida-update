@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<link type="text/css" href="/css/layout.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales-all.js"></script>
+
+<link rel="icon" href="/img/favicon.png">
+<title>뛰다</title>
+<style type="text/css">
+.container {
+	text-align: left;
+}
+
+.table-striped-color>tbody>tr>td:nth-child(odd), .table-striped-color>tbody>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.table-striped-color>thead>tr>td:nth-child(odd), .table-striped-color>thead>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.center {
+	text-align: center;
+}
+
+.line {
+	border-bottom: 2px solid #37745B;
+	border-top: 2px solid #37745B;
+}
+
+.bottom-line {
+	border-bottom: 2px solid #37745B;
+}
+
+.table-review>thead>tr>th {
+	background-color: #C1D2BF;
+}
+
+.fc-toolbar-title {
+	font-size: .4em;
+	color: #37745b;
+}
+
+.fc {
+	font-size: .6em;
+	color: #37745b;
+}
+
+:root {
+	--fc-button-bg-color: #37745b;
+	--fc-button-border-color: #37745b;
+	--fc-button-hover-bg-color: #37745b;
+	--fc-button-hover-border-color: #37745b;
+	--fc-button-active-bg-color: #C1D2BF;
+	--fc-button-active-border-color: #C1D2BF;
+	--fc-non-business-color: rgba(215, 215, 215, 0.9);
+	--fc-bg-event-color: rgba(55, 116, 91, 0.3);
+	--fc-bg-event-opacity: 0.3;
+	--fc-highlight-color: rgba(55, 116, 91, 0.3);
+	--fc-today-bg-color: rgba(55, 116, 91, 0.65);
+	--fc-now-indicator-color: red;
+}
+
+.fc-daygrid-day-number {
+	color: #37745b;
+}
+
+.fc-col-header-cell-cushion {
+	color: #37745b;
+}
+
+.center-align {
+	text-align: center;
+}
+
+.center-align {
+	text-align: center;
+}
+
+.center-vertical-align {
+	vertical-align: middle;
+}
+
+#cal-box {
+	height: 600px;
+}
+</style>
+
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<h3 class="my-3">[[${data.rsrcNm}]]</h3>
+			<div class="row grid column-gap-2" id="cal-box">
+				<div class="col mr-auto"
+					style="background-color: #F7F7F7; border-radius: 8px;">
+					<div class="mt-2">
+						<div id="carouselExampleIndicators" class="carousel slide">
+							<div class="carousel-indicators">
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="0" class="active" aria-current="true"
+									aria-label="Slide 1"></button>
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="1" aria-label="Slide 2"></button>
+								<button type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide-to="2" aria-label="Slide 3"></button>
+							</div>
+							<div class="carousel-inner" style="border-radius: 8px;">
+								<div class="carousel-item active">
+									<img
+										th:src="${#strings.isEmpty(data.bnrImgFileUrl) ? '/img/no-image.png' : data.bnrImgFileUrl}"
+										class="card-img-top" alt="시설 이미지">
+								</div>
+							</div>
+							<button class="carousel-control-prev" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+						<div class="row my-2">
+							<div>
+								<div class="row row-cols-4 py-1"
+									style="margin-right: 0px; margin-left: 0px; background-color: #FFFFFF;">
+									<div class="col">
+										<img
+											th:src="${#strings.isEmpty(data.bnrImgFileUrl) ? '/img/no-image.png' : data.bnrImgFileUrl}"
+											class="card-img-top" th:alt="${data.rsrcNm}"
+											style="width: 100%; height: 100%;">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col"
+					style="background-color: #F7F7F7; border-radius: 8px;">
+					<div class="mt-2"
+						style="background-color: #FFFFFF; height: 445px; border-radius: 8px">
+						<div id="calendar" class="py-2 px-2"></div>
+						<div class="my-4 d-grid">
+							<a th:href="@{/sports/{rsrcNo}/reserve(rsrcNo=${data.rsrcNo})}">
+								<button type="button" class="btn btn-lg"
+									style="background-color: #37745b; width: 100%; color: #fff;">예약하기</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="mt-5 mb-2">기본정보</h4>
+			<table class="table table-striped-color center"
+				style="text-align: left;">
+				<thead>
+					<tr class="line">
+						<th scope="col" class="center-align" style="width: 17%">시설 분류</th>
+						<th scope="col">[[${data.rsrcClsNm}]]</th>
+						<th scope="col" class="center-align" style="width: 17%">요금구분</th>
+						<th scope="col"><span th:if="${data.freeYn eq 'Y'}">무료</span>
+							<span th:unless="${data.freeYn eq 'Y'}">유료</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="line">
+						<th scope="row" class="center-align" style="width: 17%">시설 이름</th>
+						<td scope="row">[[${data.rsrcNm}]]</td>
+						<td scope="row" class="center-align" style="width: 17%">이용요금</td>
+						<!-- <td style="width: 10%">[[${data.amt1}]] / [[${data.amt2}]]</td> -->
+						<td scope="row" style="width: 10%">개별 문의</td>
+					</tr>
+					<tr class="line">
+						<th scope="row" class="center-align">주소</th>
+						<td colspan="3">[[${data.addr}]] [[${data.daddr}]]</td>
+					</tr>
+					<tr class="line">
+						<th scope="row" class="center-align center-vertical-align">시설
+							소개</th>
+						<td th:utext="${data.rsrcIntr}" scope="row"></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h4 class="mt-5 mb-2">시설후기</h4>
+			<table class="table table-borderless table-review center mb-5">
+				<thead>
+					<tr class="line">
+						<th scope="col" style="width: 17%">예약 번호</th>
+						<th scope="col">내용</th>
+						<th scope="col" style="width: 17%">작성자</th>
+						<th scope="col" style="width: 17%">이용일</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="bottom-line" th:if="${review.isEmpty()}">
+						<th colspan="4" rowspan="2">
+							<div class="my-4">후기가 없습니다.</div>
+						</th>
+					</tr>
+					<tr class="bottom-line" th:each="review : ${review}">
+						<td scope="col" th:text="${review.reserveId}"></td>
+						<td scope="col" th:text="${review.review}"></td>
+						<td scope="col" th:text="${review.name}">작성자</td>
+						<td scope="col" th:text="${review.useDate}">이용일</td>
+					</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar : {
+					start : 'prev',
+					center : 'title',
+					end : 'next'
+				},
+				height : "100%", // 필수
+				fixedWeekCount : false, // 필수
+				initialView : 'dayGridMonth',
+				locale : 'ko' // 한국어 설정 
+			});
+			calendar.render();
+		});
+
+		var decodedString = "[[${data.rsrcIntr}]]";
+		var decodedHTML = new DOMParser().parseFromString(decodedString,
+				"text/html").body.innerHTML;
+		var contentDiv = document.getElementById("spaceContent");
+		contentDiv.innerHTML = decodedHTML;
+	</script>
+	<script type="text/javascript" src="/js/gnb.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org">
+<header class="user-Header">
+	<div class="top-area">
+		<div class="header-center">
+			<h1 class="logo-box">
+				<a href="/"><img src="/img/user-logo.svg" alt="뛰다 로고"></a>
+			</h1>
+		</div>
+			<!-- 비로그인 -->
+		<div class="header-right" sec:authorize="isAnonymous()">
+			<a th:href="@{/join}" class="join"><span>회원가입</span></a>
+			<a th:href="@{/login}" class="login"><span>로그인</span></a>
+		</div>
+			<!-- 로그인 -->
+		<div class="header-right" sec:authorize="isAuthenticated() ">
+			<a th:href="@{/mypage/reservation}" class="user" ><span th:text="${user.name} + ' 님'"></span></a>
+			<a th:href="@{/logout}" class="logout"><span> 로그아웃</span></a>
+		</div>
+	</div>
+	<nav class="user-nav">
+		<ul class="menu-box">
+			<li><a th:href="@{/sports}"><span class="menu1">시설 검색 · 예약</span></a>
+				<ul>
+					<li><a th:href="@{/sports}" class="menu2">통합 검색</a></li>
+				</ul>
+			</li>
+			<li><a th:href="@{/ddimap}"><span class="menu1">뛰맵</span></a>
+				<ul>
+					<li><a href="#"> </a></li>
+				</ul>
+			</li>
+			<li><a th:href="@{/qna}"><span class="menu1">Q&amp;A</span></a>
+				<ul>
+					<li><a th:href="@{/qna}" class="menu2">문의게시판</a></li>
+				</ul>
+			</li>
+			<li><a th:href="@{/mypage/reservation}"><span class="menu1">마이페이지</span></a>
+				<ul>
+					<li><a th:href="@{/mypage/reservation}" class="menu2">예약 내역 조회</a></li>
+					<li><a th:href="@{/mypage/userInfo}" class="menu2">내 정보 관리</a></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+	<div class="sub-back" style="z-index: 10;"></div>
+</header>

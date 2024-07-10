@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/layout-sub.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<title>뛰다</title>
+</head>
+
+<body>
+
+	<!-- Content -->
+	<div class="center-area"
+		style="margin: 0 auto; vertical-align: middle; margin-top: 200px;">
+		<a href="/"
+			style="display: block; width: 200px; height: 100%; margin: 40px auto; position: relative; right: 5px;"><img
+			src="/img/user-logo-full.svg"></a>
+		<div class="container"
+			style="width: 500px; border: 2px solid #37745b; border-radius: 15px;">
+
+			<div id="login-box" style="width: 400px; margin: 0 auto;">
+				<form th:action="@{/login}" method="post" id="login-form">
+					<!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+					<div class="mb-3 mt-5">
+						<input type="text" class="form-control search-input focus-ring" name="username"
+							style="border-color: #aaa;" id="username"
+							placeholder="아이디를 입력" >
+					</div>
+					<div class="mb-3">
+						<input type="password" class="form-control search-input focus-ring" name="password"
+							style="border-color: #aaa;" id="password"
+							placeholder="비밀번호를 입력" >
+					</div>
+					<div th:if="${param.error}" >
+						<div class="alert alert-danger">ID 또는 비밀번호를 확인해 주세요.</div>
+					</div>
+					<div class="form-check" style="text-align: left;">
+						<input class="form-check-input focus-ring" type="checkbox" name="remember-me"
+							id="rememberMe"> <label class="form-check-label"
+							for="rememberMe"> 자동 로그인 </label>
+					</div>
+					<button type="submit" id="login-btn"
+						class="btn btn-primary form-control mt-3 focus-ring">로그인</button>
+						
+				</form>
+				<hr style="margin: 10px auto;">
+				<a th:href="@{/join}" class="form-control mb-5 focus-ring"
+					style="display: block; background-color: #fff; border-color: #37745b; color: #37745b; font-weight: 300;">회원가입</a>
+			</div>
+		</div>
+
+		<div class="copyright mt-3" style="border: 0;">
+			<a th:href="@{/login/manage}"><span>Copyright &copy; 2024 CodeRunner. All rights reserved.</span></a>
+		</div>
+	</div>
+
+</body>
+</html>

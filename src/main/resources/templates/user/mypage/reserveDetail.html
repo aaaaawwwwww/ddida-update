@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<link href="/css/reset.css" rel="stylesheet">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/qna.css" rel="stylesheet">
+<link rel="icon" href="/img/favicon.png">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script type="text/javascript" src="/js/gnb.js"></script>
+<title>뛰다</title>
+<style type="text/css">
+.table-striped-color>tbody>tr>td:nth-child(odd), .table-striped-color>tbody>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.table-striped-color>thead>tr>td:nth-child(odd), .table-striped-color>thead>tr>th:nth-child(odd)
+	{
+	background-color: #C1D2BF;
+}
+
+.center {
+	text-align: center;
+}
+
+.line {
+	border-bottom: 2px solid #37745B;
+	border-top: 2px solid #37745B;
+}
+
+.bottom-line {
+	border-bottom: 2px solid #37745B;
+}
+
+textarea {
+	resize: none;
+	height: 120px;
+	margin-bottom: 50px;
+}
+</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<div th:replace="~{component/user/userHeader}"></div>
+
+	<!-- Content -->
+	<div class="wrap-content">
+		<div class="container">
+			<h4 style="width: fit-content">
+				<a href="/mypage/reservation" class="back-button"> </a> 예약 내역
+			</h4>
+			<hr class="titleUnder my-2">
+
+			<div class="container" style="width: 90%">
+				<table class="table table-striped-color center mt-5">
+					<thead>
+						<tr class="line">
+							<th scope="col" style="width: 17%">예약 번호</th>
+							<th scope="col" style="width: 33%">[[${reserve.reserveId}]]</th>
+							<th scope="col" style="width: 17%">결제 방식</th>
+							<th scope="col" style="width: 33%">[[${reserve.reserveType}]]</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="line">
+							<th scope="row">시설 이름</th>
+							<td>[[${reserve.rsrcNm}]]</td>
+							<td>예약일자</td>
+							<td>[[${reserve.useDate}]]</td>
+						</tr>
+						<tr class="line">
+							<th scope="row">예약 시간</th>
+							<td colspan="3"><th:block th:each="useTime : ${useTimeList}">
+									<span th:text="${useTime}"></span>
+									<br>
+								</th:block></td>
+						</tr>
+						<tr class="line">
+							<th scope="row">예약 상태</th>
+							<td th:if="${reserve.checkout} == 1" colspan="3"
+								style="vertical-align: middle;">이용 완료</td>
+							<td th:unless="${reserve.checkout} == 1" colspan="3"
+								style="line-height: 25px;">이용 대기
+								<form id="cancel-form"
+									style="display: inline-block; margin-left: 10px;"
+									th:action="@{/mypage/reservation/{reserveId}(reserveId=${reserve.reserveId})}"
+									method="post">
+									<input type="hidden" name="_method" value="delete" />
+									<button id="edit-btn" type="submit" class="btn btn-primary">예약
+										취소</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h4 class="review mt-5" style="width: fit-content">이용 후기</h4>
+
+				<th:block th:if="${reserve.checkout} == 0">
+					<textarea id="description" name="description"
+						style="margin-bottom: 10px; margin-top: 10px;"
+						class="description form-control focus-ring" rows="10"
+						disabled="disabled">후기 작성은 시설 이용 완료 후 가능합니다</textarea>
+				</th:block>
+
+				<th:block
+					th:if="${reserve.checkout} == 1 and ${reserve.review == null}">
+					<form id="reviewAddForm"
+						th:action="@{/mypage/reservation/review/{reserveId}(reserveId=${reserve.reserveId})}"
+						method="post" enctype="multipart/form-data" class="t-3 focus-ring">
+						<input type="hidden" name="_method" value="put" /> <input
+							type="hidden" name="reserveId" th:value="${reserve.reserveId}" />
+						<textarea id="review" name="review"
+							class="description form-control focus-ring" rows="10"
+							style="margin-bottom: 10px; margin-top: 10px;"></textarea>
+						<div class="d-flex justify-content-end mt-1">
+							<button id="add-btn" type="submit"
+								class="btn btn-primary mt-3 mb-4"
+								onclick="mypage/reservation/reserveDetail">등록하기</button>
+						</div>
+					</form>
+				</th:block>
+
+				<th:block
+					th:if="${reserve.checkout} == 1 and ${reserve.review != null}">
+					<textarea id="description" name="description"
+						class="description form-control" rows="10"
+						style="margin-bottom: 10px; margin-top: 10px;" disabled="disabled">[[${reserve.review}]]</textarea>
+				</th:block>
+
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Footer -->
+	<div th:replace="~{component/user/userFooter}"></div>
+</body>
+
+</html>
